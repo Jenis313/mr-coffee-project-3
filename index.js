@@ -4,61 +4,28 @@ const data = require('./data');
 const PORT = 3030;
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const path = require('path');
+const ejs = require('ejs')
+
+// Load Routing level middlewares
+const homeRouter = require('./controllers/home.controller');
+const scheduleRouter = require('./controllers/schedule.controller');
+const userRouter = require('./controllers/user.controller');
+
+// template engine setup
+app.set('view engine', ejs)
+app.set('views', path.join(process.cwd(), 'views'))
 
 // x-www-encoded files parser
 app.use(express.urlencoded({
     extended: true
   }))
 
-//   Get requests
-app.get('/', (req, res, next) => {
-    res.json({
-        msg: 'Welcome to our schedule website!'
-    })
-})
-app.get('/users', (req, res, next) => {
-    res.json({
-        users: data.users
-    })
-})
-app.get('/schedules', (req, res, next) => {
-    res.json({
-        schedules: data.schedules
-    })
-})
-app.get('/users/:id', (req, res, next) => {
-    const userId = req.params.id;
-    res.json({
-        user : data.users[userId]
-    })
-})
-app.get('/users/:id/schedules', (req, res, next) => {
-    console.log('User Id in schedule 3 --> ',data.schedules[3].user_id);
-    const userId = req.params.id;
-    const schedules = data.schedules.filter((obj) => {
-        return obj.user_id == userId
-    })
-    res.json({
-        schedules: schedules
-    })
-})
+//   Routes
+app.use('/', homeRouter)
+app.use('/users', userRouter);
+app.use('/schedules', scheduleRouter);
 
-// Post requests
-app.post('/schedules', (req, res, next) => {
-    data.schedules.push(req.body);
-    res.json(req.body);
-})
-app.post('/users', (req, res, next) => {
-    console.log('req body --> ', req.body);
-    bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
-        if(err){
-            return next(err);
-        }
-        req.body.password = hash;
-        data.users.push(req.body);
-        res.json(req.body);
-    });
-})
 
 // Error handling middleware
 app.use((req, res, next) => {

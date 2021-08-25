@@ -1,0 +1,39 @@
+<%- include('partials/header') %>
+    <h1>Add Schedule</h1>
+    <form action="/schedules/new" method="POST">
+        <div class="user_id">
+            <label for="user_id">User</label>
+            <select name="user_id" id="user_id"> 
+                <% for(let i = 0; i<users.length; i++){ %>
+                <option value="<%= i %>"><%= users[i].firstname %> <%= users[i].lastname %></option>
+                <% } %>
+                 
+                 <!--Loop this for (user array.length -1)  -->
+            </select>
+        </div>
+        <div class="day">
+            <label for="day">Day</label>
+            <select name="day" id="day">
+                <option value="1">Monday</option> 
+                <option value="2">Tuesday</option> 
+                <option value="3">Wednesday</option> 
+                <option value="4">Thursday</option> 
+                <option value="5">Friday</option> 
+                <option value="6">Saturday</option> 
+                <option value="7">Sunday</option> 
+                 <!--Loop this for (user array.length -1)  -->
+            </select>
+        </div>
+        <div class="start_at">
+            <label for="start_at">Start Time</label>
+            <input type="time" id="start_at" name="start_at">
+        </div>
+        <div class="end_at">
+            <label for="end_at">End Time</label>
+            <input type="time" id="end_at" name="end_at">
+        </div>
+        <div class="submit">
+            <input type="submit" id="submit" value="Add">
+        </div>
+    </form>
+<%- include('partials/footer') %>
