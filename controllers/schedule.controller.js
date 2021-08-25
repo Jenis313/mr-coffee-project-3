@@ -15,12 +15,12 @@ router.route('/')
 router.route('/new')
     .get((req, res, next) => {
         const users = data.users;
-        console.log(users);
+        console.log('users--> ',users);
         // render add schedule form
         res.render('add_schedule.ejs', {users});
     })
     .post((req, res, next) => {
-        console.log(req.body)
+        console.log('req body --> ',req.body)
         res.render('all_schedules.ejs', {schedules: [req.body]});
         // get data form request body and render
     })
