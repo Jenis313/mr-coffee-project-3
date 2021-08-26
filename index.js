@@ -20,8 +20,10 @@ app.set('views', path.join(process.cwd(), 'views'))
 app.use(express.urlencoded({
     extended: true
   }))
+// json parser
+app.use(epxress.json())
 
-//   Routes
+//  handlers
 app.use('/', homeRouter)
 app.use('/users', userRouter);
 app.use('/schedules', scheduleRouter);

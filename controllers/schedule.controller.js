@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const data = require('./../data');
+const pool = require('./../models/db.js');
 
 router.route('/')
     .get((req, res, next) => {
+        // get form database
+        
         // render all schedules
         res.render('all_schedules.ejs', {
             schedules: data.schedules
