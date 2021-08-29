@@ -9,3 +9,4 @@ const db = pgp(ConnectionURL);
 
 // Exporting the database object for shared use:
 module.exports = db;
+
