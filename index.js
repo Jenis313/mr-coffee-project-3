@@ -1,20 +1,22 @@
 const express = require('express');
 const app = express();
-const data = require('./data');
 const PORT = 3030;
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
+// Path module
 const path = require('path');
+
+// view engine
 const ejs = require('ejs')
 
 // Load Routing level middlewares
 const homeRouter = require('./controllers/home.controller');
 const scheduleRouter = require('./controllers/schedule.controller');
-const userRouter = require('./controllers/user.controller');
 
 // template engine setup
 app.set('view engine', ejs)
-app.set('views', path.join(process.cwd(), 'views'))
+app.set('views', path.join(__dirname, 'views'))
+
+// static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 // x-www-encoded files parser
 app.use(express.urlencoded({
@@ -23,7 +25,6 @@ app.use(express.urlencoded({
 
 //   Routes
 app.use('/', homeRouter)
-app.use('/users', userRouter);
 app.use('/schedules', scheduleRouter);
 
 
@@ -36,7 +37,7 @@ app.use((req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-    console.log('Error handling middleware in execution!!!!')
+    console.log('Error handling middleware in execution!!!!', err)
     res.json({
         msg: err.msg || err,
         status: err. status || 404
