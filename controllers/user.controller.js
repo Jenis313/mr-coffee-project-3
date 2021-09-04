@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const data = require('./../data')
+
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 router.route('/')
     .get((req, res, next) => {
         // rebder all users
@@ -18,8 +23,15 @@ router.route('/new')
         res.render('register.ejs')
     })
     .post((req, res, next) => {
-        res.send(req.body)
-        // get data from request and render
+        // get data from request and do whatever you want 
+        bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+            if(err){
+                return next(err);
+            }
+            req.body.password = hash;
+            data.users.push(req.body);
+            res.json(req.body);
+        });
     })
 
 router.route('/:id')
