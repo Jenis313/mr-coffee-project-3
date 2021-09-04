@@ -1,0 +1,3 @@
+#PGADMIN
+1) Create a new database --> mr_coffee_db
+2) Import --> mr_coffee_db_project3c.sql
