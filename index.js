@@ -15,7 +15,7 @@ const scheduleRouter = require('./controllers/schedule.controller');
 app.set('view engine', ejs)
 app.set('views', path.join(__dirname, 'views'))
 
-// static files
+// serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // x-www-encoded files parser
@@ -28,7 +28,6 @@ app.use('/', homeRouter)
 app.use('/schedules', scheduleRouter);
 
 
-// Error handling middleware
 app.use((req, res, next) => {
     next({
         msg: 'NOT FOUND',
@@ -36,6 +35,7 @@ app.use((req, res, next) => {
     })
 })
 
+// Error handling middleware
 app.use((err, req, res, next) => {
     console.log('Error handling middleware in execution!!!!', err)
     res.json({
